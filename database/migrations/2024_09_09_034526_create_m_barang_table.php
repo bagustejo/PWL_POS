@@ -33,7 +33,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('m_barang', function (Blueprint $table) {
-            //
+            $table->id('barang_id');
+            $table->string('barang_kode', 10)->unique();
+            $table->string('barang_nama', 100);
+            $table->decimal('harga_beli', 15, 2);
+            $table->decimal('harga_jual', 15, 2);
+            $table->foreignId('kategori_id')->constrained('m_kategori'); // Menambahkan kategori_id
+            $table->timestamps();
         });
     }
 };
