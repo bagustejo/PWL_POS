@@ -25,9 +25,7 @@ class UserController extends Controller
         return view('user', ['data' => $user]);
         */
 
-        $user = UserModel::findOr (20, ['username', 'nama'], function() {
-            abort(404);
-        });
+        $user = UserModel::where('username', 'manager9')->FirstOrFail();
 
         return view('user', ['data'=> $user]);
     }
