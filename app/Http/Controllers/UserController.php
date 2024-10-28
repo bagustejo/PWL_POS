@@ -25,8 +25,7 @@ class UserController extends Controller
         return view('user', ['data' => $user]);
         */
 
-        $user = UserModel::where('username', 'manager9')->FirstOrFail();
-
-        return view('user', ['data'=> $user]);
+        $jumlahUser = UserModel::where('level_id', 2)->count();
+        return view('user', ['jumlahUser'=> $jumlahUser]);
     }
 }
