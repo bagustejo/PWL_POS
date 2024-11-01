@@ -54,14 +54,21 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/', [UserController::class, 'store']);
     // Menyimpan data pengguna baru ke dalam database. Method store() pada UserController akan dipanggil.
 
+    Route::get('/create_ajax', [UserController::class, 'create_ajax']);
+    Route::get('/ajax', [UserController::class, 'store_ajax']);
+
     Route::get('/{id}', [UserController::class, 'show']);
     // Menampilkan detail pengguna berdasarkan ID. Method show() pada UserController akan dipanggil.
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
 
     Route::get('/{id}/edit', [UserController::class, 'edit']);
     // Menampilkan form untuk mengedit pengguna berdasarkan ID. Method edit() pada UserController akan dipanggil.
 
     Route::put('/{id}', [UserController::class, 'update']);
     // Memperbarui data pengguna berdasarkan ID. Method update() pada UserController akan dipanggil.
+    
+    Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
 
     Route::delete('/{id}', [UserController::class, 'destroy']);
     // Menghapus pengguna berdasarkan ID. Method destroy() pada UserController akan dipanggil.
