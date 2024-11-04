@@ -14,7 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('m_barang')) {
             Schema::create('m_barang', function (Blueprint $table) {
                 $table->id('barang_id');
-                $table->unsignedBigInteger('ketegori_id')->index();
+                $table->unsignedBigInteger('kategori_id')->index();
                 $table->string('barang_kode', 10)->unique();
                 $table->string('barang_nama', 100)->unique();
                 $table->integer('harga_beli');
@@ -38,8 +38,10 @@ return new class extends Migration
             $table->string('barang_nama', 100);
             $table->decimal('harga_beli', 15, 2);
             $table->decimal('harga_jual', 15, 2);
-            $table->foreignId('kategori_id')->constrained('m_kategori'); // Menambahkan kategori_id
+            $table->unsignedBigInteger('kategori_id')->index(); // Menambahkan kategori_id
             $table->timestamps();
+
+            $table->foreign('kategori_id')->references('kategori_id')->on('m_kategori');
         });
     }
 };

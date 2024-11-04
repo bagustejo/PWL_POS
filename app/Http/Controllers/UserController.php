@@ -176,6 +176,14 @@ class UserController extends Controller
         ]);
     }
 
+    public function create_ajax()
+    {
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.create_ajax')
+            ->with('level', $level);
+    }
+
     // Menyimpan data user baru
     public function store(Request $request)
     {
@@ -322,14 +330,6 @@ class UserController extends Controller
         }
 
         return redirect('/');
-    }
-
-    public function create_ajax()
-    {
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-
-        return view('user.create_ajax')
-            ->with('level', $level);
     }
 
     public function store_ajax(Request $request) {

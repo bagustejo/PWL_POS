@@ -5,8 +5,7 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
-            <button onclick="modalAction('{{ url('user/create')}}')" class="btn btn-success"><i class="fa fa-plus"></i> Tambah Data</button>
+            <button onclick="modalAction('{{ url('user/create_ajax')}}')" class="btn btn-success"><i class="fa fa-plus"></i> Tambah Data</button>
         </div>
     </div>
     <div class="card-body">
@@ -99,7 +98,8 @@ $(document).ready(function() {
                 data: 'aksi',
                 name: 'aksi',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                className: 'text-center' 
             }
         ]
     });

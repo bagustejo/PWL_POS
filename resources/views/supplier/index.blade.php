@@ -1,55 +1,89 @@
 @extends('layouts.template')
-
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header">
-        <h3 class="card-title">{{ $page->title }}</h3>
-        <a href="{{ url('supplier/create') }}" class="btn btn-primary btn-sm float-right">Tambah Supplier</a>
-    </div>
+        <h3 class="card-title">Daftar Supplier</h3>
+        <div class="card-tools">
+          <button onclick="modalAction('{{ url('/supplier/create_ajax') }}')" class="btn btn-success"><i class="fa fa-plus"></i> Tambah Data</button>
+        </div>
+      </div>
     <div class="card-body">
-        <table id="table-supplier" class="table table-bordered table-striped table-hover table-sm">
+        @if(session('success'))
+            <div class="alert alert-success">{{session('success')}}</div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger">{{session('error')}}</div>
+            @endif
+            
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_supplier">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th>ID</th>
                     <th>Kode Supplier</th>
                     <th>Nama Supplier</th>
                     <th>Alamat Supplier</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Data akan diisi melalui DataTables -->
-            </tbody>
         </table>
     </div>
 </div>
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
 @endsection
 
 @push('css')
 @endpush
 
 @push('js')
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script>
+    function modalAction(url = '') {
+        $('#myModal').load(url,function() {
+            $('#myModal').modal('show');
+        });
+    }
+
+    var dataSupplier;
+
     $(document).ready(function() {
-        $('#table-supplier').DataTable({
-            processing: true,
+        dataSupplier = $('#table_supplier').DataTable({
+            // serverSide: true, jika ingin menggunakan server side processing
             serverSide: true,
             ajax: {
-                url: "{{ route('supplier.list') }}",
-                type: "POST",
-                data: function (d) {
-                    d._token = "{{ csrf_token() }}";
-                }
+                "url": "{{ url('supplier/list') }}",
+                "dataType": "json",
+                "type": "POST",
+
             },
             columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', orderable: false, searchable: false },
-                { data: 'supplier_kode', name: 'supplier_kode' },
-                { data: 'supplier_nama', name: 'supplier_nama' },
-                { data: 'supplier_alamat', name: 'supplier_alamat' },
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
+                {
+                    data: "supplier_id",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "supplier_kode",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "supplier_nama",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "supplier_alamat",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "aksi",
+                    className: 'text-center',
+                    orderable: false,
+                    searchable: false
+                }
             ]
         });
+
     });
 </script>
 @endpush
