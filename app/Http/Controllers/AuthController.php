@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\UserModel;
 
 class AuthController extends Controller
 {
@@ -58,6 +60,41 @@ class AuthController extends Controller
 
         // Redirect ke halaman login
         return redirect('login');
+    }
+
+    /**
+     * Register.
+     */
+    public function register()
+    {
+        $levels = \App\Models\LevelModel::all(); // Mengambil semua data level dari tabel m_level
+        return view('auth.register', compact('levels')); // Mengirim data levels ke view
+    }
+
+
+    /**
+     * Proses Register.
+     */
+    public function postregister(Request $request)
+    {
+            // Validasi input dari form
+            $validatedData = $request->validate([
+                'username' => 'required|string|max:20|unique:m_user',
+                'name' => 'required|string|max:100',
+                'password' => 'required|string|min:5|confirmed',
+                'level_id' => 'required|integer'
+            ]);
+    
+            // Simpan data user ke database
+            $user = new UserModel();
+            $user->username = $validatedData['username'];
+            $user->nama = $validatedData['name'];
+            $user->password = Hash::make($validatedData['password']);
+            $user->level_id = $validatedData['level_id'];
+            $user->save();
+    
+            // Redirect ke halaman login setelah registrasi
+            return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan login.');
     }
 
 }
