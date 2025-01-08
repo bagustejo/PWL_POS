@@ -5,9 +5,11 @@
   <div class="card-header">
     <h3 class="card-title">Daftar Barang</h3>
     <div class="card-tools">
-            <button onclick="modalAction('{{url('barang/create_ajax')}}')" class="btn btn-success"><i class="fa fa-plus"></i>Tambah Ajax</button>
+      <button onclick="modalAction('{{ url('/barang/import') }}')" class="btn btn-info" class="fa fa-file-import">Import Barang</button>
+      <a href="{{ url('/barang/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export Barang XLSX</a>
+      <button onclick="modalAction('{{url('barang/create_ajax')}}')" class="btn btn-success"><i class="fa fa-plus"></i>Tambah Ajax</button>
 
-        </div>
+    </div>
   </div>
 
   <div class="card-body">
